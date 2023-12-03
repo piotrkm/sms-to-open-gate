@@ -16,7 +16,7 @@
 class gate {
   public:
     
-    enum gate_status {gate_open, gate_close, gate_error, gate_in_operation};
+    enum gate_status {gate_open, gate_close, gate_error, gate_unknown, gate_in_operation, gate_in_operation_opening, gate_in_operation_closing};
 
     gate();
 
@@ -24,12 +24,19 @@ class gate {
     void set_status();
     void open_gate();
     void close_gate();
+    void check_limit_switch();
+    void stop_gate();
+    void is_message();
+    String get_message();
+    void delete_message();
+    
 
     ~gate() {};
 
   private:
     int status;
     long long int timestamp;
+    String message;
 
 
 

@@ -20,7 +20,7 @@ gsmClass gsm {VERBOSE};        // Establish the gsm object
                                
 gate GateObj {}; 
                         
-
+String number;
                                
                                
 // ################################################################
@@ -107,6 +107,9 @@ void loop() {
             Serial.println("Gate is going to open");
           
           GateObj.open_gate();  
+          number = mes.get_number();
+          Serial.println(number);
+          
           
         }
 
@@ -139,8 +142,28 @@ void loop() {
 
           
         }
-
+        
     }
+    
+      // =======================
+      // CHECKING LIMITS SWITCHES
+      // =========================
+      GateObj.check_limit_switch();
+      
+      if (GateObj.get_message() !="")
+        {
+          String temp_mess = GateObj.get_message();
+          Serial.println("CONFIRMATION: ");
+          Serial.println(temp_mess.c_str());
+          Serial.println(number.c_str());
+          Serial.println("CONFIRMATION END");
+          gsm.send_sms(temp_mess.c_str(), number.c_str());
+          GateObj.delete_message();
+          
+        }
+     
+    
+    
     
     //Serial.print(incoming_message);
     //Serial.print(incoming_message.substring(0,5));
