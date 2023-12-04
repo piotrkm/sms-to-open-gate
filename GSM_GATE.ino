@@ -103,13 +103,15 @@ void loop() {
       // =====================
       if(mes.text_contains("OPEN"))
         {
-          if(VERBOSE)
-            Serial.println("Gate is going to open");
           
           GateObj.open_gate();  
           number = mes.get_number();
-          Serial.println(number);
-          
+
+          if(VERBOSE)
+            {
+              Serial.println("Gate is going to open");
+              Serial.println(number);
+            }
           
         }
 
@@ -118,13 +120,16 @@ void loop() {
       // =====================
       if(mes.text_contains("CLOSE"))
         {
-          if(VERBOSE)
-            Serial.println("Gate is going to close");
-          
           GateObj.close_gate();  
+          number = mes.get_number();
+          
+          if(VERBOSE)
+            {
+              Serial.println("Gate is going to close");
+              Serial.println(number);
+            }
+          
         }
-      
-      //gsm.send_sms("Dzieki za SMSa", mes.get_number());
       
 
       // =====================
@@ -132,14 +137,14 @@ void loop() {
       // =====================
       if(mes.text_contains("STATUS"))
         {
-          if(VERBOSE)
-            Serial.println("Gate status requested");
-
+          number = mes.get_number();
           String status = GateObj.get_status();
           
-          Serial.println(status);
-
-
+          if(VERBOSE)
+            {
+              Serial.println("Gate status requested");
+              Serial.println(status);
+            }
           
         }
         
