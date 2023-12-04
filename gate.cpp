@@ -112,3 +112,9 @@ void gate::delete_message()
   {
     message = "";
   }
+
+void gate::set_message(String content)
+  {
+    message = content;
+    
+  }

@@ -29,6 +29,7 @@ class gate {
     void is_message();
     String get_message();
     void delete_message();
+    void set_message(String);
     
 
     ~gate() {};

@@ -10,6 +10,7 @@
 #include "gsm.h"
 #include "message.h"
 #include "gate.h"
+#include "temperature.h"
 
 #define LED 13          // The pin 13 associated to the onboard LED
 #define VERBOSE true    // Set the verbose mode;
@@ -19,6 +20,8 @@
 gsmClass gsm {VERBOSE};        // Establish the gsm object
                                
 gate GateObj {}; 
+
+temperature TempObj {};
                         
 String number;
                                
@@ -56,9 +59,6 @@ void setup() {
 //
 // ################################################################
 void loop() {
-  // put your main code here, to run repeatedly:
-
-  {
     String incoming_message {};
     
     while(gsm.serial_available())
@@ -112,8 +112,7 @@ void loop() {
               Serial.println("Gate is going to open");
               Serial.println(number);
             }
-          
-        }
+        }  // _END OF OPEN COMMAND_
 
       // =====================
       // CLOSE COMMAND
@@ -128,8 +127,7 @@ void loop() {
               Serial.println("Gate is going to close");
               Serial.println(number);
             }
-          
-        }
+        } // _END OF CLOSE COMMAND_
       
 
       // =====================
@@ -146,10 +144,25 @@ void loop() {
               Serial.println(status);
             }
           
+        } // _END OF STATUS REQUEST_
+
+      // =====================
+      // TEMPERATURE COMMAND
+      // =====================
+      if(mes.text_contains("TEMP")) 
+        {
+          number = mes.get_number();
+          
+          String temp_val {};
+          temp_val = "Current temperature: " + String(TempObj.get_t()) + " C";
+          gsm.send_sms(temp_val.c_str(), number.c_str());
+          
         }
         
-    }
+        
+    } // _END OF_INCOMMING_MESSAGE_
     
+
       // =======================
       // CHECKING LIMITS SWITCHES
       // =========================
@@ -168,11 +181,10 @@ void loop() {
         }
      
     
+  
     
     
-    //Serial.print(incoming_message);
-    //Serial.print(incoming_message.substring(0,5));
-
+    
   // =========================
   //
   // GPRS CONNECTION
@@ -207,7 +219,7 @@ void loop() {
   
 
   
-  }
+
     
     
     
